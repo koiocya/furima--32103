@@ -1,15 +1,16 @@
 class ItemsController < ApplicationController
 
   def index 
+    @items = Items.all
   end
   
   def new
-    @user = User.new
+    @item = Item.new
   end
 
   def create
-    @user = User.new(items_params)
-    if @user.save
+    @item = Item.new(items_params)
+    if @item.save
       redirect_to action: :index
     else
       render action: :new
@@ -20,7 +21,7 @@ class ItemsController < ApplicationController
   private
 
   def items_params
-    params.require(:user).permit(:nickname, :first_name, :first_name_reading, :last_name, :last_name_reading, :birthday)
+    params.require(:item).permit(:image, :name, :price, :user, :category_id, :sales_status_id, :shipping_fee_status_id, :prefecture_id, :scheduled_delivery_id).merge(user_id: current_user.id)
   end
   
 end
