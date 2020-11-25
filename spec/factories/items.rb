@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :item do
     explain                {"123"}
     name                   {"abc"}
-    image                  {Faker::Lorem.sentence}
     price                  {500}
     category_id            {2}
     sales_status_id        {2}

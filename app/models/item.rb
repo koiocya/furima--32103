@@ -9,8 +9,10 @@ class Item < ApplicationRecord
   belongs_to :shipping_fee_status
   belongs_to :scheduled_delivery
 
-  validates :explain, :name, :price, :user, presence: true
+  validates :explain, :name, :price, :image,presence: true
 
-  validates :category_id, :sales_status_id, :shipping_fee_status_id, :prefecture_id, :scheduled_delivery_id, numericality: { other_than: 1 }
-  validates :price, format: { with: /\A[0-9]+\z/ }
+ 
+  validates :category_id, :sales_status_id, :shipping_fee_status_id, :prefecture_id, :scheduled_delivery_id, numericality: { other_than: 1 ,message: "Select"}
+  # validates :price, format: { with: /\A[0-9]+\z/, message: "Half-width number"}
+  validates :price, numericality: {greater_than: 299 ,less_than_or_equal_to: 9999999 , message: "Out of setting range" }
 end
