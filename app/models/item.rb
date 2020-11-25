@@ -12,5 +12,5 @@ class Item < ApplicationRecord
   validates :explain, :name, :price, :user, presence: true
 
   validates :category_id, :sales_status_id, :shipping_fee_status_id, :prefecture_id, :scheduled_delivery_id, numericality: { other_than: 1 }
-
+  validates :price, format: { with: /\A[0-9]+\z/ }
 end
