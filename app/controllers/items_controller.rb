@@ -21,6 +21,27 @@ class ItemsController < ApplicationController
     @item =  Item.find(params[:id])
   end
 
+  def edit
+    @item = Item.find(params[:id])
+    if user_signed_in? && @item.user == current_user
+      render :edit
+    elsif @item.user != current_user
+      redirect_to root_path
+    else 
+      redirect_to user_sessions_path
+    end
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(items_params)
+      redirect_to show
+    else
+      render :edit
+    end
+  end
+
+
 
   private
 
