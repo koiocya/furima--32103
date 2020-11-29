@@ -1,12 +1,17 @@
 class OrdersController < ApplicationController
+  before_action :set_item, only: [:index, :create, :pay_item]
+  before_action :authenticate_user!
   def index
-    @item = Item.find(params[:item_id])
+      if user_signed_in? && @item.user == current_user
+        redirect_to root_path
+      else @item.user != current_user && @item.order.blank?
+        redirect_to root_path
+      end
+       
     @item_form = ItemOrder.new
-    
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @item_form = ItemOrder.new(order_params)
     if @item_form.valid? 
       pay_item
@@ -25,13 +30,16 @@ class OrdersController < ApplicationController
   end
 
   def pay_item
-    @item = Item.find(params[:item_id])
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: @item.price,  
       card: order_params[:token],    
       currency: 'jpy'
     )
+    end
+
+    def set_item
+      @item = Item.find(params[:item_id])
     end
 
 end
