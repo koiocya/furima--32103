@@ -47,13 +47,15 @@ RSpec.describe ItemOrder, type: :model do
         @item_form.valid?
         expect(@item_form.errors.full_messages).to include("Phone number number Input only number")
       end
+      it 'tokenが空であるとき' do
+        @item_form.token = nil
+        @item_form.valid?
+        expect(@item_form.errors.full_messages).to include("Token can't be blank")
+      end
     end
   end
 end
 
-# クレジットカード決済ができること
-# クレジットカードの情報は購入の都度入力させること
-# クレジットカード情報は必須であり、正しいクレジットカードの情報で無いときは決済できないこと
-# 配送先の住所情報も購入の都度入力させること
+
 
 
