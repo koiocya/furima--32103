@@ -4,10 +4,10 @@ class OrdersController < ApplicationController
   def index
       if user_signed_in? && @item.user == current_user
         redirect_to root_path
-      else @item.user != current_user && @item.order.blank?
+      end
+      unless @item.user != current_user && @item.order.blank?
         redirect_to root_path
       end
-       
     @item_form = ItemOrder.new
   end
 
