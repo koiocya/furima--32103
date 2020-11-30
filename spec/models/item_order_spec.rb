@@ -9,6 +9,10 @@ RSpec.describe ItemOrder, type: :model do
       it '必要な情報を適切に入力すると、商品の購入ができること' do
         expect(@item_form).to be_valid
       end
+      it '建物名が空白でも商品の購入ができること' do
+        @item_form.building_name = nil
+        expect(@item_form).to be_valid
+      end
     end
 
     context '購入ができない場合' do
@@ -44,6 +48,16 @@ RSpec.describe ItemOrder, type: :model do
       end
       it '電話番号にハイフンがあるとき' do
         @item_form.phone_number = "090-1000-2000"
+        @item_form.valid?
+        expect(@item_form.errors.full_messages).to include("Phone number number Input only number")
+      end
+      it '電話番号が12桁以上であるとき' do
+        @item_form.phone_number = "090100020000"
+        @item_form.valid?
+        expect(@item_form.errors.full_messages).to include("Phone number number Input only number")
+      end
+      it '電話番号に数字以外があるとき' do
+        @item_form.phone_number = "090-abcd-2000"
         @item_form.valid?
         expect(@item_form.errors.full_messages).to include("Phone number number Input only number")
       end

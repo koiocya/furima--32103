@@ -9,6 +9,8 @@ class ItemOrder
     validates :house_number
     validates :phone_number
     validates :token
+    validates :user_id
+    validates :item_id
   end
   validates :phone_number, format: {with: /\A\d{10,11}\z/, message: "number Input only number"}
    #郵便番号に関するバリデーション
